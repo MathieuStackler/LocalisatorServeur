@@ -29,7 +29,7 @@ public class Traitement {
         //Ouverture du fichier
         FileReader input = null;
         try {
-            input = new FileReader("donnees.json");
+            input = new FileReader("res/donnees.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -69,7 +69,7 @@ public class Traitement {
         //Ouverture du fichier
         input = null;
         try {
-            input = new FileReader("donnees.json");
+            input = new FileReader("res/donnees.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

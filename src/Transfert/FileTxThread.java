@@ -16,7 +16,7 @@ public class FileTxThread extends Thread {
     @Override
     public void run() {
         KMeans k = new KMeans();
-        File file1 = new File("donnees.json");
+        File file1 = new File("res/" ,"donnees.json");
         try {
             file1.createNewFile();
         } catch (IOException e) {
@@ -43,7 +43,7 @@ public class FileTxThread extends Thread {
         }
 
 
-        File file2 = new File("traitement.json");
+        File file2 = new File("res/", "traitement.json");
 
         try {
             file2.createNewFile();

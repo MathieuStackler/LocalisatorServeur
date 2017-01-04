@@ -192,7 +192,8 @@ public class KMeans {
     private void ecriture() throws IOException {
 
         File ff;
-        ff = new File("res/traitement.json");
+        ff = new File("traitement.json");
+
         FileWriter ffw = new FileWriter(ff);
 
         ffw.write(donnees);

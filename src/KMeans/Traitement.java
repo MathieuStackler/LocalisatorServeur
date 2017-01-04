@@ -20,13 +20,16 @@ public class Traitement {
     public static double y_max = 0;
     public static double y_min = 100;
 
+    private static final int LATITUDE_VALUE_INDEX = 4;
+    private static final int LONGITUDE_VALUE_INDEX = 6;
+
 
     public static int data() {
 
         //Ouverture du fichier
         FileReader input = null;
         try {
-            input = new FileReader("res/donnees.json");
+            input = new FileReader("donnees.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -66,7 +69,7 @@ public class Traitement {
         //Ouverture du fichier
         input = null;
         try {
-            input = new FileReader("res/donnees.json");
+            input = new FileReader("donnees.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -86,23 +89,23 @@ public class Traitement {
                 String[] array = myLine.split(",");
 
                 System.out.println(i);
-                double x = Float.parseFloat(array[3]);
-                double y = Float.parseFloat(array[5]);
+                double x = Float.parseFloat(array[LATITUDE_VALUE_INDEX]);
+                double y = Float.parseFloat(array[LONGITUDE_VALUE_INDEX]);
                 myList.add(i, new Point(x, y));
                 i++;
 
-                if (x_max < Float.parseFloat(array[3])){
-                    x_max = Float.parseFloat(array[3]);
+                if (x_max < Float.parseFloat(array[LATITUDE_VALUE_INDEX])){
+                    x_max = Float.parseFloat(array[LATITUDE_VALUE_INDEX]);
                 }
-                if (x_min > Float.parseFloat(array[3])){
-                    x_min = Float.parseFloat(array[3]);
+                if (x_min > Float.parseFloat(array[LATITUDE_VALUE_INDEX])){
+                    x_min = Float.parseFloat(array[LATITUDE_VALUE_INDEX]);
                 }
 
-                if (y_max < Float.parseFloat(array[5])){
-                    y_max = Float.parseFloat(array[5]);
+                if (y_max < Float.parseFloat(array[LONGITUDE_VALUE_INDEX])){
+                    y_max = Float.parseFloat(array[LONGITUDE_VALUE_INDEX]);
                 }
-                if (y_min > Float.parseFloat(array[5])){
-                    y_min = Float.parseFloat(array[5]);
+                if (y_min > Float.parseFloat(array[LONGITUDE_VALUE_INDEX])){
+                    y_min = Float.parseFloat(array[LONGITUDE_VALUE_INDEX]);
                 }
 
             }

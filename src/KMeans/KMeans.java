@@ -188,7 +188,7 @@ public class KMeans {
             }
         }
     }
-
+//
     private void ecriture() throws IOException {
 
         File ff;

@@ -13,7 +13,7 @@ import KMeans.Point;
  */
 public class KMeans {
     //Number of Clusters. This metric should be related to the number of points
-    private int NUM_CLUSTERS = 2;
+    private static int NUM_CLUSTERS;
     //Number of Points
     private int NUM_POINTS;
     //Min and Max X and Y
@@ -44,9 +44,13 @@ public class KMeans {
         //Print
         System.out.println("Premier centroid : " + clusters.get(0).getCentroid());
         System.out.println("Second centroid : " + clusters.get(1).getCentroid());
-        donnees = "Données traitées \n" +
-                "Latitude," + String.valueOf(clusters.get(0).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(0).getCentroid().getY()) + "\n" +
-                "Latitude," + String.valueOf(clusters.get(1).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(1).getCentroid().getY()) + "\n";
+        donnees = "Données traitées \n"; // +
+              //  "Latitude," + String.valueOf(clusters.get(0).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(0).getCentroid().getY()) + "\n" +
+               // "Latitude," + String.valueOf(clusters.get(1).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(1).getCentroid().getY()) + "\n";
+
+        for (int j = 0; j< NUM_CLUSTERS; j++){
+            donnees += "Latitude," + String.valueOf(clusters.get(j).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(j).getCentroid().getY()) + "\n";
+        }
 
         System.out.println(donnees);
         kmeans.ecriture();
@@ -63,8 +67,12 @@ public class KMeans {
 
         Traitement.myList.size();
 
+        NUM_CLUSTERS = (Traitement.numberCluster);
+
+        System.out.println("Nombre de clusters : " + NUM_CLUSTERS);
         for (int i = 0; i < NUM_POINTS; i++){
 
+            System.out.println("i : " + i);
             double x = Traitement.myList.get(i).getX();
             double y = Traitement.myList.get(i).getY();
             points.add(i, new Point(x, y));

@@ -4,6 +4,8 @@ import KMeans.KMeans;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 //Thread qui envoie le .json quand une demande est faite
 public class FileTxThread extends Thread {
@@ -16,6 +18,9 @@ public class FileTxThread extends Thread {
     @Override
     public void run() {
         KMeans k = new KMeans();
+
+
+        //Traitement de donnees.json
         File file1 = new File("res/" ,"donnees.json");
         try {
             file1.createNewFile();
@@ -23,15 +28,50 @@ public class FileTxThread extends Thread {
             e.printStackTrace();
         }
 
-        byte[] bytes = new byte[1024];
+        byte[] bytes = new byte[2048];
         InputStream is = null;
+
+            try {
+                is = socket.getInputStream();
+                FileOutputStream fos1 = new FileOutputStream(file1);
+                BufferedOutputStream bos1 = new BufferedOutputStream(fos1);
+                int bytesRead1 = is.read(bytes, 0, bytes.length);
+                bos1.write(bytes);//, 0, bytesRead1);
+                bos1.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+  /*      try {
+            k.lancement();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } */
+
+
+        //Traitement de param.json
+        File file3 = new File("res/" ,"param.json");
         try {
-            is = socket.getInputStream();
-            FileOutputStream fos = new FileOutputStream(file1);
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-            int bytesRead = is.read(bytes, 0, bytes.length);
-            bos.write(bytes, 0, bytesRead);
-            bos.close();
+            file3.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        byte[] bytes3 = new byte[1024];
+        InputStream is3 = null;
+        try {
+
+            is3 = socket.getInputStream();
+            FileOutputStream fos3 = new FileOutputStream(file3);
+            BufferedOutputStream bos3 = new BufferedOutputStream(fos3);
+            int bytesRead3 = is3.read(bytes3, 0, bytes3.length);
+            bos3.write(bytes3, 0, bytesRead3);
+            bos3.close();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,6 +83,8 @@ public class FileTxThread extends Thread {
         }
 
 
+
+        //Traitement de traitement.json
         File file2 = new File("res/", "traitement.json");
 
         try {
@@ -54,7 +96,7 @@ public class FileTxThread extends Thread {
 
         System.out.println("Envoie du fichier...\n");
 
-        byte[] bytes1 = new byte[(int) file1.length()];
+        byte[] bytes1 = new byte[(int) file2.length()];
         BufferedInputStream bis;
 
         try {

@@ -1,10 +1,10 @@
-package Transfert;
+package fr.polytech.localisator.Transfert;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static Transfert.TCPServer.SocketServerPORT;
+import static fr.polytech.localisator.Transfert.TCPServer.SocketServerPORT;
 
 //Création du thread qui attend une connexion
 public class ServerSocketThread extends Thread {

@@ -1,11 +1,9 @@
-package Transfert;
+package fr.polytech.localisator.Transfert;
 
-import KMeans.KMeans;
+import fr.polytech.localisator.KMeans.KMeans;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 //Thread qui envoie le .json quand une demande est faite
 public class FileTxThread extends Thread {
@@ -17,11 +15,17 @@ public class FileTxThread extends Thread {
 
     @Override
     public void run() {
-        KMeans k = new KMeans();
-
+        KMeans k = new KMeans("", 2);
 
         //Traitement de donnees.json
         File file1 = new File("res/" ,"donnees.json");
+
+        System.out.println(file1.getParentFile().exists());
+
+        if(!file1.getParentFile().exists()) {
+            file1.getParentFile().mkdirs();
+        }
+
         try {
             file1.createNewFile();
         } catch (IOException e) {

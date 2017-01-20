@@ -1,0 +1,8 @@
+fr/polytech/localisator/Transfert/TCPServer.class
+fr/polytech/localisator/Transfert/FileTxThread.class
+fr/polytech/localisator/Transfert/ServerSocketThread.class
+fr/polytech/localisator/KMeans/Point.class
+fr/polytech/localisator/KMeans/KMeans.class
+fr/polytech/localisator/KMeans/Traitement.class
+fr/polytech/localisator/KMeans/Cluster.class
+fr/polytech/localisator/Main.class

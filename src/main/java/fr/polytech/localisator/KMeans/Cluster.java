@@ -1,4 +1,4 @@
-package KMeans;
+package fr.polytech.localisator.KMeans;
 
 import java.util.ArrayList;
 import java.util.List;

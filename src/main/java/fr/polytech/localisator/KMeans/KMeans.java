@@ -1,21 +1,22 @@
-package KMeans;
+package fr.polytech.localisator.KMeans;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import KMeans.Cluster;
-import KMeans.Point;
 
 /**
  * Created by Nahia on 30/12/2016.
  */
 public class KMeans {
+
     //Number of Clusters. This metric should be related to the number of points
-    private static int NUM_CLUSTERS;
+    private int nbClusters;
+
     //Number of Points
     private int NUM_POINTS;
+
     //Min and Max X and Y
     private double MIN_X = 0;
     private double MAX_X = 0;
@@ -23,78 +24,72 @@ public class KMeans {
     private double MAX_Y = 0;
 
     private List<Point> points;
-    private static List<Cluster> clusters;
-    private static Traitement t;
-    private static String donnees;
+    private List<Cluster> clusters;
+    private Traitement t;
+    private String donnees;
 
-    public KMeans() {
+    private String userId;
+
+    public KMeans(String id, int nbCluster) {
         this.points = new ArrayList();
         this.clusters = new ArrayList();
+        userId = id;
+        t = new Traitement(userId);
+        this.nbClusters = nbCluster;
     }
 
-   // public static void main(String[] args) throws IOException {
+    public void lancement() throws IOException {
 
-        public static void lancement() throws IOException {
-
-        KMeans kmeans = new KMeans();
-        kmeans.init();
-        kmeans.calculate();
-
+        init();
+        calculate();
 
         //Print
         System.out.println("Premier centroid : " + clusters.get(0).getCentroid());
         System.out.println("Second centroid : " + clusters.get(1).getCentroid());
-        donnees = "Données traitées \n"; // +
-              //  "Latitude," + String.valueOf(clusters.get(0).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(0).getCentroid().getY()) + "\n" +
-               // "Latitude," + String.valueOf(clusters.get(1).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(1).getCentroid().getY()) + "\n";
+        donnees = "Données traitées \n";
 
-        for (int j = 0; j< NUM_CLUSTERS; j++){
+        for (int j = 0; j< nbClusters; j++){
             donnees += "Latitude," + String.valueOf(clusters.get(j).getCentroid().getX()) + ",Longitude," + String.valueOf(clusters.get(j).getCentroid().getY()) + "\n";
         }
 
         System.out.println(donnees);
-        kmeans.ecriture();
+        //kmeans.ecriture();
     }
 
     //Initializes the process
     public void init() {
+
         //Get the coord
-        NUM_POINTS = t.data();
-        MIN_X = Traitement.x_min;
-        MAX_X = Traitement.x_max;
-        MIN_Y = Traitement.y_min;
-        MAX_Y = Traitement.y_max;
+        NUM_POINTS = t.getNbPoint();
 
-        Traitement.myList.size();
+        MIN_X = t.getX_min();
+        MAX_X = t.getX_max();
+        MIN_Y = t.getY_min();
+        MAX_Y = t.getY_max();
 
-        NUM_CLUSTERS = (Traitement.numberCluster);
-
-        System.out.println("Nombre de clusters : " + NUM_CLUSTERS);
+        System.out.println("Nombre de clusters : " + nbClusters);
         for (int i = 0; i < NUM_POINTS; i++){
-
-            System.out.println("i : " + i);
-            double x = Traitement.myList.get(i).getX();
-            double y = Traitement.myList.get(i).getY();
+            double x = t.getMyList().get(i).getX();
+            double y = t.getMyList().get(i).getY();
             points.add(i, new Point(x, y));
         }
 
         //Create Clusters
         //Set Random Centroids
-        for (int i = 0; i < NUM_CLUSTERS; i++) {
+        for (int i = 0; i < nbClusters; i++) {
             Cluster cluster = new Cluster(i);
             Point centroid = Point.createRandomPoint(MIN_X, MAX_X, MIN_Y, MAX_Y);
+            centroid.setClusterNumber(i);
             cluster.setCentroid(centroid);
             clusters.add(cluster);
         }
 
         //Print Initial state
         plotClusters();
-
-
     }
 
     private void plotClusters() {
-        for (int i = 0; i < NUM_CLUSTERS; i++) {
+        for (int i = 0; i < nbClusters; i++) {
             Cluster c = clusters.get(i);
             c.plotCluster();
         }
@@ -145,10 +140,10 @@ public class KMeans {
     }
 
     private List getCentroids() {
-        List centroids = new ArrayList(NUM_CLUSTERS);
+        List centroids = new ArrayList(nbClusters);
         for(Cluster cluster : clusters) {
             Point aux = cluster.getCentroid();
-            Point point = new Point(aux.getX(),aux.getY());
+            Point point = new Point(aux.getX(), aux.getY());
             centroids.add(point);
         }
         return centroids;
@@ -162,7 +157,7 @@ public class KMeans {
 
         for(Point point : points) {
             min = max;
-            for(int i = 0; i < NUM_CLUSTERS; i++) {
+            for(int i = 0; i < nbClusters; i++) {
                 Cluster c = clusters.get(i);
                 distance = Point.distance(point, c.getCentroid());
                 if(distance < min){
@@ -170,7 +165,7 @@ public class KMeans {
                     cluster = i;
                 }
             }
-            point.setCluster(cluster);
+            point.setClusterNumber(cluster);
             clusters.get(cluster).addPoint(point);
         }
     }
@@ -207,5 +202,9 @@ public class KMeans {
         ffw.write(donnees);
 
         ffw.close();
+    }
+
+    public List<Cluster> getClusters() {
+        return clusters;
     }
 }

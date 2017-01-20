@@ -1,4 +1,4 @@
-package Transfert;
+package fr.polytech.localisator.Transfert;
 
 import java.io.*;
 import java.net.ServerSocket;

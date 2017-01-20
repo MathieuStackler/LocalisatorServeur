@@ -35,7 +35,7 @@ public class Main {
 
         post("/upload", (request, response) -> {
 
-            String location = "data";          // the directory location where files will be stored
+            String location = "res";          // the directory location where files will be stored
             long maxFileSize = 100000000;       // the maximum size allowed for uploaded files
             long maxRequestSize = 100000000;    // the maximum size allowed for multipart/form-data requests
             int fileSizeThreshold = 1024;       // the size threshold after which files will be written to disk

@@ -23,7 +23,7 @@ public class Traitement {
     private final int LATITUDE_VALUE_INDEX = 4;
     private final int LONGITUDE_VALUE_INDEX = 6;
 
-    private final String dataPath = "data";
+    private final String dataPath = "res";
 
     public Traitement(String userId) {
         data(userId);

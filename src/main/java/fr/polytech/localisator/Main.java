@@ -3,6 +3,7 @@ package fr.polytech.localisator;
 import com.google.gson.Gson;
 import fr.polytech.localisator.KMeans.Cluster;
 import fr.polytech.localisator.KMeans.KMeans;
+import fr.polytech.localisator.KMeans.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.utils.IOUtils;
@@ -10,11 +11,13 @@ import spark.utils.IOUtils;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -66,6 +69,7 @@ public class Main {
             String newJson = IOUtils.toString(request.raw().getPart("file").getInputStream());
             logger.info("json: \n" + newJson);
 
+
             Part uploadedFile = request.raw().getPart("file");
             Path out = Paths.get(location + "/" + id, fName);
 
@@ -87,10 +91,17 @@ public class Main {
             k.lancement();
 
             List<Cluster> responseCluster = k.getClusters();
+            List<Point> clusterCentroid = new ArrayList<>();
 
             for(int i=0; i<responseCluster.size(); i++) {
                 logger.info("Cluster " + i + ": " + responseCluster.get(i).getCentroid().getX() + ","
                         + responseCluster.get(i).getCentroid().getY());
+                clusterCentroid.add(new Point(responseCluster.get(i).getCentroid().getX(),
+                                                responseCluster.get(i).getCentroid().getY()));
+            }
+
+            for(Point p:clusterCentroid) {
+                logger.info("Centroid " + p.toString());
             }
 
             Gson gson = new Gson();
@@ -99,6 +110,13 @@ public class Main {
 
             response.type("application/json");
             response.body(clusterJson);
+
+            try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(location + "/" + id + "/cluster.json"), "utf-8"))) {
+                writer.write(clusterJson);
+            }
+
+            logger.info("Cluster json saved on server");
 
             return response.body();
         });

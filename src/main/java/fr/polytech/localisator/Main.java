@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import fr.polytech.localisator.KMeans.Cluster;
 import fr.polytech.localisator.KMeans.KMeans;
 import fr.polytech.localisator.KMeans.Point;
+import fr.polytech.localisator.finder.MatchingClusterFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.utils.IOUtils;
@@ -28,12 +29,33 @@ import static spark.Spark.*;
  */
 public class Main {
     public static void main(String[] args) {
+        MatchingClusterFinder matchingClusterFinder = new MatchingClusterFinder();
+        //matchingClusterFinder.findMatchCluster("3f69837c-7d4c-4c2c-a36a-95d8847d6707");
 
         Logger logger = LoggerFactory.getLogger(Main.class);
 
+        // Hello World to test get
         get("/hello", (req, res) ->  {
             logger.info("Getting GET request on /hello");
             return  "Hello World";
+        });
+
+        get("/match/:id", (request, response) -> {
+            String userId = request.params(":id");
+            logger.info("Getting request to match for " + request.params(":id"));
+            List<String> matchedUserList = matchingClusterFinder.findMatchCluster(userId);
+
+            for(String matchedId:matchedUserList) {
+                logger.info("Matched id: " + matchedId);
+            }
+
+            Gson gson = new Gson();
+            String matchedUserJson = gson.toJson(matchedUserList);
+
+            response.type("application/json");
+            response.body(matchedUserJson);
+            
+            return response.body();
         });
 
         post("/upload", (request, response) -> {

@@ -34,6 +34,7 @@ public class Traitement {
         // Open the data file
         //Ouverture du fichier
         FileReader input = null;
+
         try {
             input = new FileReader(dataPath + "/" + userId + "/donnees.json");
         } catch (FileNotFoundException e) {

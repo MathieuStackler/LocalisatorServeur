@@ -91,16 +91,18 @@ public class Main {
             k.lancement();
 
             List<Cluster> responseCluster = k.getClusters();
-            List<Point> clusterCentroid = new ArrayList<>();
+            List<Point> clusterCentroidList = new ArrayList<>();
 
             for(int i=0; i<responseCluster.size(); i++) {
                 logger.info("Cluster " + i + ": " + responseCluster.get(i).getCentroid().getX() + ","
                         + responseCluster.get(i).getCentroid().getY());
-                clusterCentroid.add(new Point(responseCluster.get(i).getCentroid().getX(),
-                                                responseCluster.get(i).getCentroid().getY()));
+                Point clusterCentroid = new Point(responseCluster.get(i).getCentroid().getX(),
+                        responseCluster.get(i).getCentroid().getY());
+                clusterCentroid.setClusterNumber(i);
+                clusterCentroidList.add(clusterCentroid);
             }
 
-            for(Point p:clusterCentroid) {
+            for(Point p:clusterCentroidList) {
                 logger.info("Centroid " + p.toString());
             }
 
@@ -116,7 +118,14 @@ public class Main {
                 writer.write(clusterJson);
             }
 
-            logger.info("Cluster json saved on server");
+            String centroidClusterJson = gson.toJson(clusterCentroidList);
+
+            try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(location + "/" + id + "/centroidList.json"), "utf-8"))) {
+                writer.write(centroidClusterJson);
+            }
+
+            logger.info("Cluster json and centroid json saved on server");
 
             return response.body();
         });

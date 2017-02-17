@@ -32,11 +32,13 @@ public class MatchingClusterFinder {
         File[] listOfFiles = folder.listFiles();
         userIdList = new ArrayList<>();
 
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                //System.out.println(file.getName());
-            } else if (file.isDirectory()) {
-                userIdList.add(file.getName());
+        if(listOfFiles!=null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    //System.out.println(file.getName());
+                } else if (file.isDirectory()) {
+                    userIdList.add(file.getName());
+                }
             }
         }
 

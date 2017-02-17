@@ -3,6 +3,7 @@
 /Users/shafiq/LocalisatorServeur/src/main/java/fr/polytech/localisator/Transfert/TCPServer.java
 /Users/shafiq/LocalisatorServeur/src/main/java/fr/polytech/localisator/KMeans/Traitement.java
 /Users/shafiq/LocalisatorServeur/src/main/java/fr/polytech/localisator/Transfert/FileTxThread.java
+/Users/shafiq/LocalisatorServeur/src/main/java/fr/polytech/localisator/finder/MatchingClusterFinder.java
 /Users/shafiq/LocalisatorServeur/src/main/java/fr/polytech/localisator/KMeans/Point.java
 /Users/shafiq/LocalisatorServeur/src/main/java/fr/polytech/localisator/KMeans/KMeans.java
 /Users/shafiq/LocalisatorServeur/src/main/java/fr/polytech/localisator/Main.java
